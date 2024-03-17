@@ -1,0 +1,77 @@
+2.4. function cp02_04 % matrix condition number estimation
+A1 = [10 -7 0; -3 2 6; 5 -1 5];
+A2 = [-73 78 24; 92 66 25; -80 37 10];
+disp(ÿMatrix 1, 1-normÿ);
+estcond(A1, 1); disp(ÿ ÿ);
+disp(ÿMatrix 1, infinity-normÿ);
+estcond(A1, inf);
+disp(ÿ ÿ)
+
+disp(ÿMatrix 2, 1-normÿ);
+estcond(A2, 1);
+disp(ÿ ÿ)
+
+disp(ÿMatrix 2, infinity-normÿ);
+estcond(A2, inf);
+disp(ÿ ÿ);
+
+function [c] = estcond(A, p)
+norm_A = norm(A, p); [L,U,P] = lu(A); n = size(A,1);
+% part (a), transposed triangular solves with special rhs
+v = zeros(n,1); v(1) = 1/U(1,1);
+for i=2:n
+	tot = 0;
+	for j=1:i-1;
+		tot = tot-U(j,i)*v(j);
+	end
+	
+	if tot > 0, tot = tot+1;
+	else tot = tot-1; end
+	v(i) = tot/U(i,i);
+end
+
+for i=n:-1:1
+	tot = v(i);
+	for j=i+1:n
+		tot = tot-L(j,i)*v(j);
+	end
+	v(i) = tot;
+end
+y = P*v; z = U\(L\(P*y));
+fprintf(ÿCondition estimate, method a: %e\nÿ, norm_A*norm(z,p)/norm(y,p));
+% part (b), several random choices for y
+maxratio = 0;
+for k=1:5
+	y = rand(n,1); z = A\y; t = norm(z,p)/norm(y,p);
+	if t > maxratio, maxratio = t;
+	end
+end
+
+fprintf(ÿCondition estimate, method b: %e\nÿ, norm_A*maxratio);
+fprintf(ÿMATLAB condest function: %e\nÿ, condest(A));
+fprintf(ÿMATLAB cond function: %e\nÿ, cond(A,p));
+fprintf(ÿActual condition number: %e\nÿ, norm_A*norm(inv(A),p))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
