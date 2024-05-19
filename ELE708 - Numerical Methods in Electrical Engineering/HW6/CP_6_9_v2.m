@@ -59,7 +59,7 @@ title('Plot of the function');
     s = ones(size(x_newton));
     while norm(s) > tolerance && iter_2 < max_iteration
         iter_2 = iter_2 + 1;
-        s = -(hessf(x_newton)\gradf(x_newton));
+        s = -(hessf(x_newton)\gradf(x_newton))
         x_newton_old = x_newton;
         x_newton = x_newton + s;
         plot([x_newton_old(1), x_newton(1)], [x_newton_old(2), x_newton(2)], '-');
