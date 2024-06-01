@@ -1,4 +1,4 @@
-function cp05_03 
+function CP_5_3 
     % Functions and derivatives
     fs = {'x^3-2*x-5', 'exp(-x)-x', 'x*sin(x)-1', 'x^3-3*x^2+3*x-1'};
     dfs = {'3*x^2-2', '-exp(-x)-1', 'x*cos(x)+sin(x)', '3*x^2-6*x+3'};
@@ -84,11 +84,11 @@ function cp05_03
         disp(' ');
         
         % MATLAB function fzero
-        disp('MATLAB function fzero:');
+        disp('Library Routine:');
         options = optimset('TolX', tol, 'MaxIter', maxits);
         [x, fx, exitflg, output] = fzero(f, [a0(i), b0(i)], options);
-        disp(' k    x                  f(x)');
-        fprintf('%3d %17.10e %17.10e\n', output.iterations, x, fx);
+        disp('   x                  f(x)');
+        fprintf('%17.5e %17.5e\n', x, fx);
         disp(' ');
     end
 end
